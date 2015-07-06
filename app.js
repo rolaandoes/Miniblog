@@ -1,11 +1,11 @@
-function Post(title, author, releaseDate, image) {
+function Post(title, body, tags, link) {
 	this.title = title;
-	this.author = author;
-	this.releaseDate = releaseDate;
-	this.image = image;
+	this.body = body;
+	this.tags = tags;
+	this.link = link;
 
-	this.items = localStorage.getItem("books");
-	this.key = "books";
+	this.items = localStorage.getItem("posts");
+	this.key = "posts";
 	   //  // reset the form and add autofocus back to first input
     // $Book[0].reset();
     // $('#add-post-modal').focus();
@@ -51,7 +51,7 @@ $("#save-post").on("click", function() {
 })
 
 function pageLoad() {
-	var items_json = JSON.parse(localStorage.getItem("books"));
+	var items_json = JSON.parse(localStorage.getItem("posts"));
 
 	var templatePost = _.template($("#template-source").html());
 
