@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MiniBlog App</title>
+
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+	<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+	<h1>Bloggit.com</h1>
+	<p>The site for bloggers who like to code.</p>
+
+	<!-- Start of Navbar -->
+	
+	<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Brand</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+        <li><a href="#">Link</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">One more separated link</a></li>
+          </ul>
+        </li>
+      </ul>
+      <form class="navbar-form navbar-left" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">Login</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sign Up <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+          	<li><a href="#">With your email</a></li>
+          	<li role="separator" class="divider"></li>
+            <li><a href="#">Using Gmail</a></li>
+            <li><a href="#">Using Facebook</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+<!-- End of navbar -->
+
+<div class="container">
+	<div class="margin-top-20">
+		<a href="#" data-toggle="modal" data-target="#add-post-modal" class="btn btn-primary">New Post</a>
+	</div>
+	<!--One Post-->
+	<div class="row margin-top-20 post-container">
+		<div class="col-sm-3">
+			<img src="https://s3-us-west-2.amazonaws.com/sandboxapi/to_kill_a_mockingbird.jpg" class="img-responsive" />
+		</div>
+		<div class="col-sm-9">
+			<div class="margin-top-20">
+				<span class="bold">Title: </span><span>Dear Diary,</span>
+			</div>
+			<div>
+				<span class="bold">Body: </span><span>Harper Lee</span>
+			</div>
+			<div>
+				<span class="bold">Tags: </span><span>#awesomebook #readthisinhighschool</span>
+			</div>
+			<div class="margin-top-20">
+				<a href="#" class="btn btn-default">Edit Post</a>
+			</div>
+		</div>
+	</div>
+	<!--/One Post-->
+</div>
+
+<!--Add Post Modal-->
+<div id="add-post-modal" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">Add New Post</h4>
+			</div>
+			<div class="modal-body">
+				<div class="bold">
+					Title
+				</div>
+				<div class="margin-top-20">
+					<input id="title" type="text" class="form-control" placeholder="Hello world" autofocus/>
+				</div>
+				<div class="bold margin-top-20" id="body">
+					Body
+				</div>
+				<div class="margin-top-20">
+					<input id="body" type="text" class="form-control" placeholder="Today, I went on a trip to..." autofocus/>
+				</div>
+				<div class="bold margin-top-20">
+					Tags
+				</div>
+				<div class="margin-top-20">
+					<input id="tags" type="text" class="form-control" placeholder="#coolstorybro #doYouEvenCamelCase" autofocus/>
+				</div>
+				<div class="bold margin-top-20">
+					Link
+				</div>
+				<div class="margin-top-20">
+					<input id="link" type="text" class="form-control" placeholder="github.com/rolaandoes" autofocus/>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button id="save-post" type="button" class="btn btn-primary">Save Book</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!--/Add Book Modal-->
+
+<div id="target">
+</div>
+
+<script type="text/template" id="template-source">
+	<div class="row margin-top-20 book-container">
+		<div class="col-sm-3">
+			<img src="<%= image %>" class="img-responsive" />
+		</div>
+		<div class="col-sm-9">
+			<div class="margin-top-20">
+				<span class="bold">Title: </span><span><%= title %></span>
+			</div>
+			<div>
+				<span class="bold">Body: </span><span><%= author %></span>
+			</div>
+			<div>
+				<span class="bold">Tags: </span><span><%= releaseDate %></span>
+			</div>
+			<div class="margin-top-20">
+				<a href="#" class="btn btn-default">Edit Book</a>
+			</div>
+		</div>
+	</div>
+</script>
+
+<!--jQuery-->
+<script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+
+<!--Underscore-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+<script src="app.js"></script>
+
+
+
+</body>
+</html>
