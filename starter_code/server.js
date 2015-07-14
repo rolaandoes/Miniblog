@@ -4,8 +4,10 @@
 var express = require('express'),
     app = express(),
     bodyParser = require('body-parser'),
-    _ = require("underscore");
-
+    _ = require("underscore"),
+    mongoose = require('mongoose');
+   mongoose.connect('mongodb://localhost/3000');
+var Story = require('./models/story.js');
 // serve js and css files from public folder
 app.use(express.static(__dirname + '/public'));
 
@@ -41,76 +43,95 @@ app.get('/', function (req, res) {
 // get all posts
 app.get('/api/posts', function (req, res) {
   // send all posts as JSON response
-  res.json(posts);
+  // res.json(posts);
+  Story.find(function (err, posts){
+    res.json(posts)
+  });
 });
 
 // create new post
 app.post('/api/posts', function (req, res) {
   // grab params (author and text) from form data
-  var newPost = {}
-  newPost.text = req.body.text;
-  newPost.author = req.body.author;
-  
-  // set a unique id never used by a post until now
-  totalPostCount++;
-  newPost.id = totalPostCount;
+  var newPost = new Story({
+    author: req.body.author,
+    text: req.body.text
+  });
+  // newPost.text = req.body.text;
+  // newPost.author = req.body.author;
 
-  // add newPost to `posts` array
-  posts.push(newPost);
-  
+  // // set a unique id never used by a post until now
+  // totalPostCount++;
+  // newPost.id = totalPostCount;
+
+  // // add newPost to `posts` array
+  // posts.push(newPost);
+  newPost.save(function (err, savedStory){
+    res.json(newPost);
+  })
   // send newPost as JSON response
-  res.json(newPost);
+  // res.json(newPost);
 });
 
 // get a single post 
 app.get('/api/posts/:id', function(req, res) {
 
-  // take the value of the id from the url parameter
-  var targetId = parseInt(req.params.id);
-
-  // find item in `posts` array matching the id
-  var foundPost = _.findWhere(posts, {id: targetId});
-
-  // send back post object
-  res.json(foundPost);
+  // // take the value of the id from the url parameter
+  // var targetId = parseInt(req.params.id);
+  var  targetId = req.params.id;
+  // // find item in `posts` array matching the id
+  // var foundPost = _.findWhere(posts, {id: targetId});
+  Story.findOne({_id: targetId}, function (err, foundStory){
+      // // send back post object
+  // res.json(foundPost);
+    res.json(foundStory)
+  })
 });
 
 // update single post
 app.put('/api/posts/:id', function(req, res) {
 
-  // take the value of the id from the url parameter
-  var targetId = parseInt(req.params.id);
+  // // take the value of the id from the url parameter
+  // var targetId = parseInt(req.params.id);
+  var targetId = req.params.id;
+  // // find item in `posts` array matching the id
+  // var foundPost = _.findWhere(posts, {id: targetId});
+  Story.findOne({_id: targetId}, function (err, foundStory){
+    findStory.author = req.body.author,
+    findStory.text = req.body.text;
+    findStory.save(function (err, savedStory){
+      res.json(savedStory);
+    });
+  });
+  // // update the post's author
+  // foundPost.author = req.body.author;
 
-  // find item in `posts` array matching the id
-  var foundPost = _.findWhere(posts, {id: targetId});
+  // // update the post's text
+  // foundPost.text = req.body.text;
 
-  // update the post's author
-  foundPost.author = req.body.author;
-
-  // update the post's text
-  foundPost.text = req.body.text;
-
-  // send back edited object
-  res.json(foundPost);
+  // // send back edited object
+  // res.json(foundPost);
 });
 
 // delete post
 app.delete('/api/posts/:id', function(req, res) {
-  
-  // take the value of the id from the url parameter
-  var targetId = parseInt(req.params.id);
+  var targetId = req.params.Id;
+  Story.findOneAndRemove({_id: targetId}, function (err, deletedStory){
+    res.json(deletedStory);
+  });
+  // // take the value of the id from the url parameter
+  // var targetId = parseInt(req.params.id);
 
-  // find item in `posts` array matching the id
-  var foundPost = _.findWhere(posts, {id: targetId});
+  // // find item in `posts` array matching the id
+  // var foundPost = _.findWhere(posts, {id: targetId});
 
-  // get the index of the found item
-  var index = posts.indexOf(foundPost);
+  // // get the index of the found item
+  // var index = posts.indexOf(foundPost);
   
-  // remove the item at that index, only remove 1 item
-  posts.splice(index, 1);
+  // // remove the item at that index, only remove 1 item
+  // posts.splice(index, 1);
   
-  // send back deleted object
-  res.json(foundPost);
+  // // send back deleted object
+  // res.json(foundPost);
 });
 
 // set server to localhost:3000
